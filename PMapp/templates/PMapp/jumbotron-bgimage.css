@@ -1,0 +1,9 @@
+body {
+    padding-top:54px;
+  } 
+  
+  .bg-img {
+    background-image: url("../../images/photo.jpg");
+    background-size: cover;
+    background-position: center 60%;
+  }
