@@ -1,0 +1,35 @@
+{% extends 'PMapp/base.html' %}
+
+{% block content %}
+{% load mathfilters %}
+<div class="container">
+    <div class="card">
+        <h5 class="card-header">{{ object.RaceName }}</h5>
+        <div class="card-body">
+            <h5 class="card-title">{{ object.Category }}</h5> 
+            <h6 class="card-title">{{ object.RaceDate | date:"Y/n/j" }}</h6>
+            {% if object.Distance >= 1000 %}
+            <h6 class="card-title">{{ object.Distance|div:1000 }}km</h6>
+            {% else %} 
+            <h6 class="card-title">{{ object.Distance }}m</h6>
+            {% endif %}
+            {% if object.TimeLimit >= 60 %}
+            <h6 class="card-title">{{ object.TimeLimit|intdiv:60 }}時間{{ object.TimeLimit|mod:60 }}分</h6>
+            {% else %}
+            <h6 class="card-title">{{ object.TimeLimit }}分</h6>
+            {% endif %}
+            {% if object.TargetTime >= 60 %}
+            <h6 class="card-title">{{ object.TargetTime|intdiv:60 }}時間{{ object.TargetTime|mod:60 }}分</h6>
+            {% else %}
+            <h6 class="card-title">{{ object.TargetTime }}分</h6>
+            {% endif %}
+            <h6 class="card-title">{{ object.TextField }}</h6>
+
+            <a href="{% url 'PMapp:Race_list' %}" class="btn btn-primary">一覧へ</a>
+            <a href="{% url 'PMapp:Race_update' object.pk %}" class="btn btn-primary">編集する</a>
+            <a href="{% url 'PMapp:Race_delete' object.pk %}" class="btn btn-primary">削除する</a>
+            
+        </div>
+    </div>
+</div>
+{% endblock content %}

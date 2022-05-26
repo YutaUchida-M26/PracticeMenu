@@ -14,6 +14,7 @@ class Race(models.Model):
     Distance = models.IntegerField('距離(m)')
     TimeLimit = models.IntegerField('時間制限(min)', blank=True)
     TargetTime = models.IntegerField('目標タイム(min)', blank=True)
+    Remarks = models.TextField('備考', blank=True, max_length=1000)
 
     def __str__(self):
         return self.RaceName

@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<h1>情報入力フォーム</h1>
+<div class="container">
+<h3>大会情報入力フォーム</h3>
 <table class="table">
     <form method="post" action="">
     {% csrf_token %}
@@ -31,6 +32,10 @@
         <th>目標タイム(min)</th>
         <td>{{ form.TargetTime }}</td>
       </tr>
+      <tr>
+        <th>備考</th>
+        <td>{{ form.Remarks }}</td>
+      </tr>
     </tbody>
       <tr>
       <td><input class="btn btn-primary" type="submit" value="Submit">
@@ -41,5 +46,5 @@
       </tr>
     </form>
   </table>
-
+</div>
 {% endblock %}

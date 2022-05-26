@@ -5,18 +5,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
   <body>
-    <div class="p-3 p-sm-5 mb-4 bg-img">
-      <div class="container">
-        <div class="bg-light p-4 p-sm-5 my-4 rounded">
-          <h1 class="display-4">練習メニュー作成ツール</h1>
-        </div>
-      </div>
+    <div class="container">
+      <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+          <span class="fs-4">練習メニュー作成ツール</span>
+        </a>
+  
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a href="{% url 'PMapp:RaceInfo' %}" class="nav-link active" aria-current="page">大会入力フォーム</a></li>
+          <li class="nav-item"><a href="{% url 'PMapp:Race_list' %}" class="nav-link">大会一覧</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+        </ul>
+      </header>
     </div>
+    <div class="b-example-divider"></div>
 
     {% block content %}
     {% endblock %}

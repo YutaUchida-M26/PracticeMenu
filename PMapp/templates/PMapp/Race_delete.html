@@ -1,0 +1,9 @@
+{% extends 'PMapp/base.html' %}
+
+{% block content %}
+<div class="container">
+<form action="" method="POST">{% csrf_token %}
+    <input type="submit" value="削除します">
+    </form>
+</div>
+{% endblock content %}

@@ -37,3 +37,7 @@ class BS5RaceInfoForm(forms.Form):
         #'目標タイム(min)',
         required=False,
         )
+    Remarks = forms.CharField(
+        widget=forms.Textarea,
+        required=False,
+        )
