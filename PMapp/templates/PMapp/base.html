@@ -19,9 +19,9 @@
         <ul class="nav nav-pills">
           <li class="nav-item"><a href="{% url 'PMapp:RaceInfo' %}" class="nav-link active" aria-current="page">大会入力フォーム</a></li>
           <li class="nav-item"><a href="{% url 'PMapp:Race_list' %}" class="nav-link">大会一覧</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="{% url 'PMapp:MenuInfo' %}" class="nav-link active" aria-current="page">練習入力フォーム</a></li>
+          <li class="nav-item"><a href="{% url 'PMapp:Menu_list' %}" class="nav-link">練習一覧</a></li>
+          <li class="nav-item"><a href="{% url 'PMapp:Calcurate_Cal' %}" class="nav-link">カロリー計算ツール</a></li>
         </ul>
       </header>
     </div>

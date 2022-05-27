@@ -1,0 +1,46 @@
+{% extends 'PMapp/base.html' %}
+
+{% block content %}
+{% load mathfilters %}
+{% load utils %}
+<div class="container">
+    <div class="card">
+        <h5 class="card-header">{{ object.MenuName }}</h5>
+        <div class="card-body">
+            <h5 class="card-title">種目:{{ object.Category }}</h5> 
+            <h6 class="card-title">強度:{{ object.MenuLv }}</h6>
+
+            {% if object.Distance >= 1000 %}
+            <h6 class="card-title">距離:{{ object.Distance|div:1000 }}km</h6>
+            {% else %} 
+            <h6 class="card-title">距離:{{ object.Distance }}m</h6>
+            {% endif %}
+
+            <h6 class="card-title">周回数:{{ object.NumLap }}</h6>
+
+            {% if object.LapTime >= 60 and object.LapTime is not None %}
+            <h6 class="card-title">周回タイム:{{ object.LapTime|intdiv:60 }}時間{{ object.LapTime|mod:60 }}分</h6>
+            {% else %}
+            <h6 class="card-title">周回タイム:{{ object.LapTime }}分</h6>
+            {% endif %}
+
+            {% if "swim" in object.Category and object.LapTime != None %}
+            <h6 class="card-title">周回タイムのためには・・・100m:{{ object.Distance|MenuEx1:object.LapTime }}</h6>
+            {% elif "bike" in object.Category %}
+            <h6 class="card-title">周回タイムのためには・・・時速:{{ object.Distance|MenuEx2:object.LapTime|floatformat }}km/h</h6>
+            {% elif "run" in object.Category %}
+            <h6 class="card-title">周回タイムのためには・・・１キロあたり:{{ object.Distance|MenuEx3:object.LapTime }}</h6>
+            {% else %}
+            <h6 class="card-title">周回タイムがありません</h6>
+            {% endif %}
+
+            <h6 class="card-title">備考:{{ object.Remarks }}</h6>
+
+            <a href="{% url 'PMapp:Menu_list' %}" class="btn btn-primary">一覧へ</a>
+            <a href="{% url 'PMapp:Menu_update' object.pk %}" class="btn btn-primary">編集する</a>
+            <a href="{% url 'PMapp:Menu_delete' object.pk %}" class="btn btn-primary">削除する</a>
+            
+        </div>
+    </div>
+</div>
+{% endblock content %}

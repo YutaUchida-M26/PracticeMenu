@@ -1,0 +1,16 @@
+{% extends 'PMapp/base.html' %}
+
+{% block content %}
+{% load mathfilters %}
+{% load utils %}
+<div class="container">
+    <h3>これでおおよその強度がわかります</h3>
+    <p>{{ answer }}</p>
+    <form action="{% url 'PMapp:Calcurate_Cal' %}" method="post">
+        {% csrf_token %}
+        {{ forms.as_p }}
+        <input type='submit' value="click">
+    </form>
+</div>
+
+{% endblock content %}

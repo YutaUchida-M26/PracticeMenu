@@ -1,0 +1,50 @@
+{% extends 'PMapp/base.html' %}
+
+{% block content %}
+
+<div class="container">
+<h3>練習情報入力フォーム</h3>
+<table class="table">
+    <form method="post" action="">
+    {% csrf_token %}
+    <tbody>
+      <tr>
+        <th>練習メニュー名</th>
+        <td>{{ form.MenuName }}</td>
+      </tr>
+      <tr>
+        <th>練習カテゴリ</th>
+        <td>{{ form.Category }}</td>
+      </tr>
+      <tr>
+        <th>練習強度</th>
+        <td>{{ form.MenuLv }}</td>
+      </tr>
+      <tr>
+        <th>1本あたりの距離(m)</th>
+        <td>{{ form.Distance }}</td>
+      </tr>
+      <tr>
+        <th>周回数</th>
+        <td>{{ form.NumLap }}</td>
+      </tr>
+      <tr>
+        <th>目標タイム(min)</th>
+        <td>{{ form.LapTime }}</td>
+      </tr>
+      <tr>
+        <th>備考</th>
+        <td>{{ form.Remarks }}</td>
+      </tr>
+    </tbody>
+      <tr>
+      <td><input class="btn btn-primary" type="submit" value="Submit">
+        <input class="btn btn-secondary" type="reset" value="Reset">
+      </td>
+      <td>
+      </td>
+      </tr>
+    </form>
+  </table>
+</div>
+{% endblock %}

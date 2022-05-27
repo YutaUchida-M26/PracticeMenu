@@ -2,28 +2,43 @@
 
 {% block content %}
 {% load mathfilters %}
+{% load utils %}
 <div class="container">
     <div class="card">
         <h5 class="card-header">{{ object.RaceName }}</h5>
         <div class="card-body">
-            <h5 class="card-title">{{ object.Category }}</h5> 
-            <h6 class="card-title">{{ object.RaceDate | date:"Y/n/j" }}</h6>
+            <h5 class="card-title">種目:{{ object.Category }}</h5> 
+            <h6 class="card-title">開催日:{{ object.RaceDate | date:"Y/n/j" }}</h6>
+
             {% if object.Distance >= 1000 %}
-            <h6 class="card-title">{{ object.Distance|div:1000 }}km</h6>
+            <h6 class="card-title">距離:{{ object.Distance|div:1000 }}km</h6>
             {% else %} 
-            <h6 class="card-title">{{ object.Distance }}m</h6>
+            <h6 class="card-title">距離:{{ object.Distance }}m</h6>
             {% endif %}
-            {% if object.TimeLimit >= 60 %}
-            <h6 class="card-title">{{ object.TimeLimit|intdiv:60 }}時間{{ object.TimeLimit|mod:60 }}分</h6>
+
+            {% if object.TimeLimit >= 60 and object.TimeLimit is not None %}
+            <h6 class="card-title">時間制限:{{ object.TimeLimit|intdiv:60 }}時間{{ object.TimeLimit|mod:60 }}分</h6>
             {% else %}
-            <h6 class="card-title">{{ object.TimeLimit }}分</h6>
+            <h6 class="card-title">時間制限:{{ object.TimeLimit }}分</h6>
             {% endif %}
-            {% if object.TargetTime >= 60 %}
-            <h6 class="card-title">{{ object.TargetTime|intdiv:60 }}時間{{ object.TargetTime|mod:60 }}分</h6>
+
+
+            {% if object.TargetTime >= 60 and object.TargetTime is not None %}
+            <h6 class="card-title">目標タイム:{{ object.TargetTime|intdiv:60 }}時間{{ object.TargetTime|mod:60 }}分</h6>
             {% else %}
-            <h6 class="card-title">{{ object.TargetTime }}分</h6>
+            <h6 class="card-title">目標タイム:{{ object.TargetTime }}分</h6>
             {% endif %}
-            <h6 class="card-title">{{ object.TextField }}</h6>
+            {% if object.Category == "swim" and object.TargetTime != None %}
+            <h6 class="card-title">目標タイムのためには・・・100m:{{ object.Distance|MenuEx1:object.TargetTime }}</h6>
+            {% elif object.Category == "bike" %}
+            <h6 class="card-title">目標タイムのためには・・・時速:{{ object.Distance|MenuEx2:object.TargetTime|floatformat }}km/h</h6>
+            {% elif object.Category == "run" %}
+            <h6 class="card-title">目標タイムのためには・・・１キロあたり:{{ object.Distance|MenuEx3:object.TargetTime }}</h6>
+            {% else %}
+            <h6 class="card-title">目標タイムがありません</h6>
+            {% endif %}
+
+            <h6 class="card-title">備考:{{ object.TextField }}</h6>
 
             <a href="{% url 'PMapp:Race_list' %}" class="btn btn-primary">一覧へ</a>
             <a href="{% url 'PMapp:Race_update' object.pk %}" class="btn btn-primary">編集する</a>

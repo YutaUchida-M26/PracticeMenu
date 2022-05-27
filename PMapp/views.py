@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BS5RaceInfoForm
+from .forms import BS5RaceInfoForm, BS5MenuInfoForm, Calcurate_CalForm
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView
-from .models import Race
+from .models import Race, Menu
 from django.urls import reverse_lazy
 
 def RaceInfo(request):
@@ -14,6 +14,7 @@ def RaceInfo(request):
         race.Distance = form.cleaned_data['Distance']
         race.TimeLimit = form.cleaned_data['TimeLimit']
         race.TargetTime = form.cleaned_data['TargetTime']
+        race.Remarks = form.cleaned_data['Remarks']
 
         Race.objects.create(
             RaceName=race.RaceName,
@@ -22,9 +23,57 @@ def RaceInfo(request):
             Distance=race.Distance,
             TimeLimit=race.TimeLimit,
             TargetTime=race.TargetTime,
+            Remarks = race.Remarks
         )
         return redirect('PMapp:Race_list')
     return render(request, 'PMapp/RaceInfo.html', {'form': form})
+
+def MenuInfo(request):
+    form = BS5MenuInfoForm(request.POST or None)
+    if form.is_valid():
+        menu = Menu()
+        menu.MenuName = form.cleaned_data['MenuName']
+        menu.Category = form.cleaned_data['Category']
+        menu.MenuLv = form.cleaned_data['MenuLv']
+        menu.Distance = form.cleaned_data['Distance']
+        menu.NumLap = form.cleaned_data['NumLap']
+        menu.LapTime = form.cleaned_data['LapTime']
+        menu.Remarks = form.cleaned_data['Remarks']
+
+        Menu.objects.create(
+            MenuName=menu.MenuName,
+            Category=menu.Category,
+            MenuLv=menu.MenuLv,
+            Distance=menu.Distance,
+            NumLap=menu.NumLap,
+            LapTime=menu.LapTime,
+            Remarks=menu.Remarks,
+        )
+        return redirect('PMapp:Menu_list')
+    return render(request, 'PMapp/MenuInfo.html', {'form': form})
+
+def Calcurate_Cal(request):
+    params = {
+        'title':'Calcurate_Cal',
+        'forms': Calcurate_CalForm(),
+        'answer':'消費カロリーは、'
+    }
+    mets = [7, 9.8, 11.5, 14]
+    if (request.method == 'POST'):
+        if(request.POST['Category1'] == 'bike' and request.POST['Category2'] == 'Easy'):
+            params['answer'] = '消費カロリーは、およそ' + str(mets[1] * int(request.POST['time']) * int(request.POST['weight']) * 1.05 / 60 ) + 'kcalです。'
+        elif(request.POST['Category1'] == 'bike' and request.POST['Category2'] == 'Midium'):
+            params['answer'] = '消費カロリーは、およそ' + str(mets[2] * int(request.POST['time']) * int(request.POST['weight']) * 1.05 / 60 ) + 'kcalです。'
+        elif(request.POST['Category1'] == 'bike' and request.POST['Category2'] == 'Hard'):
+            params['answer'] = '消費カロリーは、およそ' + str(mets[3] * int(request.POST['time']) * int(request.POST['weight']) * 1.05 / 60 ) + 'kcalです。'
+        elif(request.POST['Category2'] == 'Easy'):
+            params['answer'] = '消費カロリーは、およそ' + str(mets[0] * int(request.POST['time']) * int(request.POST['weight']) * 1.05 / 60 ) + 'kcalです。'
+        elif(request.POST['Category2'] == 'Midium'):
+            params['answer'] = '消費カロリーは、およそ' + str(mets[1] * int(request.POST['time']) * int(request.POST['weight']) * 1.05 / 60 ) + 'kcalです。'
+        elif(request.POST['Category2'] == 'Hard'):
+            params['answer'] = '消費カロリーは、およそ' + str(mets[2] * int(request.POST['time']) * int(request.POST['weight']) * 1.05 / 60 ) + 'kcalです。'
+        params['forms'] = Calcurate_CalForm(request.POST)
+    return render(request, 'PMapp/Calcurate_Cal.html', params)
 
 class Race_list(ListView):
     template_name = 'PMapp/Race_list.html'
@@ -53,4 +102,33 @@ class RaceUpdate(UpdateView):
         'Remarks',
         )
     success_url = reverse_lazy('PMapp:Race_list')
+    
+
+class Menu_list(ListView):
+    template_name = 'PMapp/Menu_list.html'
+    model = Menu
+     
+
+class MenuDetail(DetailView):
+    template_name = 'PMapp/Menu_detail.html'
+    model = Menu
+
+class MenuDelete(DeleteView):
+    template_name = 'PMapp/Menu_delete.html'
+    model = Menu
+    success_url = reverse_lazy('PMapp:Menu_list')
+
+class MenuUpdate(UpdateView):
+    template_name = 'PMapp/Menu_update.html'
+    model = Menu
+    fields = (
+        'MenuName',
+        'Category',
+        'MenuLv',
+        'Distance',
+        'NumLap',
+        'LapTime',
+        'Remarks',
+        )
+    success_url = reverse_lazy('PMapp:Menu_list')
 
