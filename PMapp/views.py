@@ -29,6 +29,7 @@ def RaceInfo(request):
 class Race_list(ListView):
     template_name = 'PMapp/Race_list.html'
     model = Race
+     
 
 class RaceDetail(DetailView):
     template_name = 'PMapp/Race_detail.html'
