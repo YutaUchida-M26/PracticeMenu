@@ -50,7 +50,7 @@ class BS5MenuInfoForm(forms.Form):
     ('run_rai', 'ラン_雨'),
     ('swim_kick', 'スイム_キック'),
     ('swim_pull', 'スイム_プル'),
-    ('swim_main', 'スイム_プル'),
+    ('swim_main', 'スイム_メイン'),
     ]
     Lv = [
         ('Hard','強め'),

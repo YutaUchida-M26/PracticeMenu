@@ -30,9 +30,9 @@
             {% endif %}
             {% if object.Category == "swim" and object.TargetTime != None %}
             <h6 class="card-title">目標タイムのためには・・・100m:{{ object.Distance|MenuEx1:object.TargetTime }}</h6>
-            {% elif object.Category == "bike" %}
+            {% elif object.Category == "bike" and object.TargetTime != None %}
             <h6 class="card-title">目標タイムのためには・・・時速:{{ object.Distance|MenuEx2:object.TargetTime|floatformat }}km/h</h6>
-            {% elif object.Category == "run" %}
+            {% elif object.Category == "run" and object.TargetTime != None %}
             <h6 class="card-title">目標タイムのためには・・・１キロあたり:{{ object.Distance|MenuEx3:object.TargetTime }}</h6>
             {% else %}
             <h6 class="card-title">目標タイムがありません</h6>

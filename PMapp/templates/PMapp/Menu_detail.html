@@ -26,9 +26,9 @@
 
             {% if "swim" in object.Category and object.LapTime != None %}
             <h6 class="card-title">周回タイムのためには・・・100m:{{ object.Distance|MenuEx1:object.LapTime }}</h6>
-            {% elif "bike" in object.Category %}
+            {% elif "bike" in object.Category and object.LapTime != None %}
             <h6 class="card-title">周回タイムのためには・・・時速:{{ object.Distance|MenuEx2:object.LapTime|floatformat }}km/h</h6>
-            {% elif "run" in object.Category %}
+            {% elif "run" in object.Category and object.LapTime != None %}
             <h6 class="card-title">周回タイムのためには・・・１キロあたり:{{ object.Distance|MenuEx3:object.LapTime }}</h6>
             {% else %}
             <h6 class="card-title">周回タイムがありません</h6>
