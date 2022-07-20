@@ -4,7 +4,7 @@ from . import views
 app_name = 'PMapp'
 
 urlpatterns = [
-    path('', views.RaceInfo, name='RaceInfo'),
+    path('RaceInfo/', views.RaceInfo, name='RaceInfo'),
     path('Race_list/', views.Race_list.as_view(), name='Race_list'),
     path('Race_detail/<int:pk>/', views.RaceDetail.as_view(), name='Race_detail'),
     path('Race_delete/<int:pk>/', views.RaceDelete.as_view(), name='Race_delete'),
@@ -16,5 +16,10 @@ urlpatterns = [
     path('Menu_update/<int:pk>/', views.MenuUpdate.as_view(), name='Menu_update'),
     
     path('Calcurate_Cal/', views.Calcurate_Cal, name='Calcurate_Cal'),
+
+    path('', views.Home.as_view(), name='Home'),
+    path('Login/', views.Login.as_view(), name='Login'), #for login
+    path('Logout/', views.Logout.as_view(), name='Logout'), # for logout
+    path('My_page/<int:pk>/', views.MyPage.as_view(), name='My_page'), # my info
     
 ]

@@ -1,5 +1,6 @@
 from django import forms
-from .models import Race
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model # ユーザーモデルを取得するため
 
 class BS5RaceInfoForm(forms.Form):
     Athletic_CHOICES = [
@@ -108,3 +109,12 @@ class Calcurate_CalForm(forms.Form):
         )
     time = forms.IntegerField(required=True,label='時間(min)')
     weight = forms.IntegerField(required=True,label='体重(kg)')
+
+# ユーザーモデル取得
+User = get_user_model()
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label  # placeholderにフィールドのラベルを入れる

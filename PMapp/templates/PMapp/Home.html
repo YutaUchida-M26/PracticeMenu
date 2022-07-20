@@ -1,0 +1,18 @@
+{% extends 'PMapp/base.html' %}
+
+{% block content %}
+
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5" align="center">
+      <h1 class="display-5 fw-bold">練習メニュー作成ツール</h1>
+      <p class="col-md-8 fs-4">練習メニューの作成ツールを個人開発で作成しました。<br>
+        作成の経緯は、私はトライアスロン部に所属していて練習メニュー作成を担当していました。そこで練習メニューを簡単に作成、保存をするための補助ツールがあればいいなと考え作成しました。<br>
+        使用言語はPythonのDjangoフレームワークです。<br>
+        機能としては 、大会、練習メニューをフォームでサーバー側に送り、一覧を表示させる機能と、詳細を表示させるボタンを作りました。またカロリーの計算ツールを入れたことで練習の強度を確かめることもできます。<br>
+        これからも機能を増やしていくつもりです。 </p>
+        
+      <a href="{% url 'PMapp:Login' %}" type="button" class="btn btn-primary btn-lg">Let's start!</a>
+    </div>
+  </div>
+
+{% endblock content %}

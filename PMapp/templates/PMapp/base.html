@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
   <body>
+    <!--
     <div class="container">
       <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -24,6 +25,54 @@
           <li class="nav-item"><a href="{% url 'PMapp:Calcurate_Cal' %}" class="nav-link">カロリー計算ツール</a></li>
         </ul>
       </header>
+    </div>
+    -->
+    <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'PMapp:Home' %}">練習メニュー作成ツール</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarsExample01">
+          <ul class="navbar-nav me-auto mb-2">
+            {% if not user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'PMapp:Login' %}">Login</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'PMapp:Logout' %}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'PMapp:My_page' user.pk %}">My page</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'PMapp:RaceInfo' %}">大会入力フォーム</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'PMapp:Race_list' %}">大会一覧</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'PMapp:MenuInfo' %}" tabindex="-1" aria-disabled="true">練習入力フォーム</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'PMapp:Menu_list' %}">練習一覧</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'PMapp:Calcurate_Cal' %}">カロリー計算ツール</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="pl-4 small" style="background-color: #e2e3e5 ; border-bottom: solid 1px #f3f3f3;">
+      {% if not user.is_authenticated %}
+        こんにちは！ ゲスト さん
+      {% else %}
+        こんにちは！ {{ user.username }} さん
+      {% endif %}
     </div>
     <div class="b-example-divider"></div>
 

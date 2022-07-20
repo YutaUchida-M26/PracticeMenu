@@ -1,8 +1,12 @@
+from tempfile import tempdir
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BS5RaceInfoForm, BS5MenuInfoForm, Calcurate_CalForm
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView
+from .forms import BS5RaceInfoForm, BS5MenuInfoForm, Calcurate_CalForm, LoginForm
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, TemplateView
+from django.contrib.auth.views import LoginView, LogoutView
 from .models import Race, Menu
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 def RaceInfo(request):
     form = BS5RaceInfoForm(request.POST or None)
@@ -75,6 +79,9 @@ def Calcurate_Cal(request):
         params['forms'] = Calcurate_CalForm(request.POST)
     return render(request, 'PMapp/Calcurate_Cal.html', params)
 
+class Home(TemplateView):
+    template_name = 'PMapp/Home.html'
+
 class Race_list(ListView):
     template_name = 'PMapp/Race_list.html'
     model = Race
@@ -132,3 +139,24 @@ class MenuUpdate(UpdateView):
         )
     success_url = reverse_lazy('PMapp:Menu_list')
 
+class Login(LoginView):
+    form_class = LoginForm
+    template_name = 'PMapp/Login.html'
+
+class Logout(LogoutView):
+    template_name = 'PMapp/Logout.html'
+
+'''自分しかアクセスできないようにするMixin(My Pageのため)'''
+class OnlyYouMixin(UserPassesTestMixin):
+    raise_exception = True
+
+    def test_func(self):
+        # 今ログインしてるユーザーのpkと、そのマイページのpkが同じなら許可
+        user = self.request.user
+        return user.pk == self.kwargs['pk']
+
+User = get_user_model
+
+class MyPage(OnlyYouMixin, DetailView):
+    model = User
+    template_name = 'PMapp/My_page.html'
