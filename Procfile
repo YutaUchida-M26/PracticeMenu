@@ -1,5 +1,1 @@
-web:
-gunicorn
-PracticeMenu.wsgi
---log-file
--
+web: gunicorn PracticeMenu.wsgi
