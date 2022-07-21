@@ -1,7 +1,7 @@
 from tempfile import tempdir
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BS5RaceInfoForm, BS5MenuInfoForm, Calcurate_CalForm, LoginForm
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView, TemplateView
+from .forms import BS5RaceInfoForm, BS5MenuInfoForm, Calcurate_CalForm, LoginForm, SignupForm
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, TemplateView, CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from .models import Race, Menu
 from django.urls import reverse_lazy
@@ -155,8 +155,27 @@ class OnlyYouMixin(UserPassesTestMixin):
         user = self.request.user
         return user.pk == self.kwargs['pk']
 
-User = get_user_model
+User = get_user_model()
 
 class MyPage(OnlyYouMixin, DetailView):
     model = User
     template_name = 'PMapp/My_page.html'
+    
+class Signup(CreateView):
+    template_name = 'PMapp/Signup.html'
+    form_class =SignupForm
+
+    def form_valid(self, form):
+        user = form.save() # formの情報を保存
+        return redirect('PMapp:Signup_done')
+
+    # データ送信
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["process_name"] = "Sign up"
+        return context
+
+
+'''サインアップ完了'''
+class SignupDone(TemplateView):
+    template_name = 'PMapp/Signup_done.html'

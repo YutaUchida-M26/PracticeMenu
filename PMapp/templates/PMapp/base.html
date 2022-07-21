@@ -40,6 +40,9 @@
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="{% url 'PMapp:Login' %}">Login</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'PMapp:Signup' %}">Sign up</a>
+            </li>
             {% else %}
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="{% url 'PMapp:Logout' %}">Logout</a>

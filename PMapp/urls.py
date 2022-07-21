@@ -21,5 +21,7 @@ urlpatterns = [
     path('Login/', views.Login.as_view(), name='Login'), #for login
     path('Logout/', views.Logout.as_view(), name='Logout'), # for logout
     path('My_page/<int:pk>/', views.MyPage.as_view(), name='My_page'), # my info
+    path('Signup/', views.Signup.as_view(), name='Signup'), # sign up
+    path('Signup_done/', views.SignupDone.as_view(), name='Signup_done'), # sign up end
     
 ]

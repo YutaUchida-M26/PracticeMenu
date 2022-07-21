@@ -4,7 +4,8 @@
 {% load mathfilters %}
 {% load utils %}
 <div class="container">
-    <h3>これでおおよその強度がわかります</h3>
+    <h3>カロリー計算ツール</h3>
+    <h6>おおよその強度がわかります</h6>
     <p>{{ answer }}</p>
     <form action="{% url 'PMapp:Calcurate_Cal' %}" method="post">
         {% csrf_token %}

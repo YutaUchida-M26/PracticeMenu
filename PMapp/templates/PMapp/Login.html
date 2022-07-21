@@ -21,6 +21,7 @@
             <input type="hidden" name="next" value="{{ next }}" />
             {% csrf_token %}
           </form>
+          <a href="{% url 'PMapp:Signup' %}" style="vertical-align:-50%;">アカウントをお持ちでない方はこちら</a>
         </div>
       </div>
     </div>
