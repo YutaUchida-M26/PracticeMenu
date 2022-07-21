@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1' ,'herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1' ,'.herokuapp.com']
 #ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', '{|YutaUchida|}.pythonanywhere.com']
 
 
@@ -91,11 +91,15 @@ LOGIN_REDIRECT_URL = 'PMapp:RaceInfo' #ログインが完了した後に遷移�
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+import dj_database_url
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'name',
+        'USER': 'user',
+        'PASSWORD': '',
+        'HOST': 'host',
+        'PORT': '',
     }
 }
 
@@ -148,18 +152,14 @@ STATICFILES_DIRS = (
 )
 
 #Heroku database
-import dj_database_url
-db_from_env = dj_database_url.config()
-DATABASES['default'].update(db_from_env)
-db_from_env = dj_database_url.config(conn_max_age=600,
-ssl_require=True)
-DATABASES['default'].update(db_from_env)
 try:
- from .local_settings import *
+    from .local_settings import *
 except ImportError:
- pass
-if not DEBUG:
- SECRET_KEY = '8iqgv-sen_c8xodf@kkwv%=_rh#m)m%bt6+)o#k((ol$kudq7t' #削除したSECRET_KEYをコピペします
+    pass
 
-import django_heroku
-django_heroku.settings(locals())
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    import django_heroku #追加
+    django_heroku.settings(locals()) #追加
+db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES['default'].update(db_from_env)
