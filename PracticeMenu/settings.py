@@ -22,13 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #from django.core.management.utils import get_random_secret_key
-from .local_settings import * #SECRET_KEY
+#from .local_settings import * #SECRET_KEY
 #get_random_secret_key()  
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1' ,'herokuapp.com']
 #ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', '{|YutaUchida|}.pythonanywhere.com']
 
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #HEROKU
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -139,7 +140,26 @@ STATIC_URL = '/static/'
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+ os.path.join(BASE_DIR, 'static'),
+)
+
+#Heroku database
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=600,
+ssl_require=True)
+DATABASES['default'].update(db_from_env)
 try:
-    from .local_settings import *
-except:
-    pass
+ from .local_settings import *
+except ImportError:
+ pass
+if not DEBUG:
+ SECRET_KEY = '8iqgv-sen_c8xodf@kkwv%=_rh#m)m%bt6+)o#k((ol$kudq7t' #削除したSECRET_KEYをコピペします
+
+import django_heroku
+django_heroku.settings(locals())
