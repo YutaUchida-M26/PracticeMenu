@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.conf.urls import include
 
 app_name = 'PMapp'
 
@@ -19,6 +20,7 @@ urlpatterns = [
 
     path('', views.Home.as_view(), name='Home'),
     path('Login/', views.Login.as_view(), name='Login'), #for login
+    path('auth/', include('social_django.urls', namespace='social')), 
     path('Logout/', views.Logout.as_view(), name='Logout'), # for logout
     path('My_page/<int:pk>/', views.MyPage.as_view(), name='My_page'), # my info
     path('Signup/', views.Signup.as_view(), name='Signup'), # sign up

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model # ユーザーモデルを取得するため
-
+User = get_user_model()
 
 class BS5RaceInfoForm(forms.Form):
     Athletic_CHOICES = [
@@ -42,7 +42,6 @@ class BS5RaceInfoForm(forms.Form):
         widget=forms.Textarea,
         required=False,
         )
-
 
 class BS5MenuInfoForm(forms.Form):
     Athletic_CHOICES = [
@@ -112,7 +111,6 @@ class Calcurate_CalForm(forms.Form):
     weight = forms.IntegerField(required=True,label='体重(kg)')
 
 # ユーザーモデル取得
-User = get_user_model()
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -147,7 +145,7 @@ class SignupForm(UserCreationForm):
             elif field.label == '名':
                 field.widget.attrs['placeholder'] = '一郎'
             elif field.label == 'メールアドレス':
-                field.widget.attrs['placeholder'] = '***@gmail.com'
+                field.widget.attrs['placeholder'] = '***@example.com'
 
 '''ユーザー情報更新用フォーム'''
 class UserUpdateForm(forms.ModelForm):

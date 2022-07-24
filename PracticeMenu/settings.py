@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import dj_database_url
 import os
 
 
@@ -22,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #from django.core.management.utils import get_random_secret_key
-#from .local_settings import * #SECRET_KEY
-#get_random_secret_key()  
+# from .local_settings import * #SECRET_KEY
+# get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1' ,'.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 #ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', '{|YutaUchida|}.pythonanywhere.com']
 
 
@@ -43,12 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mathfilters',
-    'social_django', # social login
+    'social_django',  # social login
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', #HEROKU
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # HEROKU
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,17 +82,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'PracticeMenu.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+    'social_core.backends.google.GoogleOAuth2',  # for Google authentication
+    'social_core.backends.github.GithubOAuth2',  # for Github authentication
+    'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
+
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_URL = 'PMapp:Login' # ログインのURLの設定
-LOGIN_REDIRECT_URL = 'PMapp:RaceInfo' #ログインが完了した後に遷移するURL
-
+LOGIN_URL = 'PMapp:Login'  # ログインのURLの設定
+LOGIN_REDIRECT_URL = 'PMapp:RaceInfo'  # ログインが完了した後に遷移するURL
+LOGOUT_REDIRECT_URL = 'PMapp:Login'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '731789856672-pe0pt7l6qfiohnr912r1uicrp1li5v1r.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_URL_NAMESPACE = 'PMapp:social'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-import dj_database_url
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -148,10 +155,10 @@ SESSION_COOKIE_SECURE = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
- os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
-#Heroku database
+# Heroku database
 try:
     from .local_settings import *
 except ImportError:
@@ -159,7 +166,7 @@ except ImportError:
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
-    import django_heroku #追加
-    django_heroku.settings(locals()) #追加
+    import django_heroku  # 追加
+    django_heroku.settings(locals())  # 追加
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)

@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Race(models.Model):
     """大会データベース"""
     Athletic_CHOICES = [

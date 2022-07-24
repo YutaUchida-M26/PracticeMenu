@@ -27,7 +27,7 @@ def RaceInfo(request):
             Distance=race.Distance,
             TimeLimit=race.TimeLimit,
             TargetTime=race.TargetTime,
-            Remarks = race.Remarks
+            Remarks = race.Remarks,
         )
         return redirect('PMapp:Race_list')
     return render(request, 'PMapp/RaceInfo.html', {'form': form})
