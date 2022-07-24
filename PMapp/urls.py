@@ -23,5 +23,8 @@ urlpatterns = [
     path('My_page/<int:pk>/', views.MyPage.as_view(), name='My_page'), # my info
     path('Signup/', views.Signup.as_view(), name='Signup'), # sign up
     path('Signup_done/', views.SignupDone.as_view(), name='Signup_done'), # sign up end
+    path('User_update/<int:pk>', views.UserUpdate.as_view(), name='User_update'), # update user
+    path('Password_change/', views.PasswordChange.as_view(), name='Password_change'), # pass change
+    path('Password_change_done/', views.PasswordChangeDone.as_view(), name='Password_change_done'), # pass change cmp
     
 ]

@@ -1,8 +1,8 @@
 from tempfile import tempdir
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BS5RaceInfoForm, BS5MenuInfoForm, Calcurate_CalForm, LoginForm, SignupForm
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView, TemplateView, CreateView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render, redirect, resolve_url
+from .forms import BS5RaceInfoForm, BS5MenuInfoForm, Calcurate_CalForm, LoginForm, SignupForm, UserUpdateForm, MyPasswordChangeForm
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, TemplateView, CreateView, UpdateView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from .models import Race, Menu
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
@@ -162,7 +162,7 @@ class MyPage(OnlyYouMixin, DetailView):
     template_name = 'PMapp/My_page.html'
     
 class Signup(CreateView):
-    template_name = 'PMapp/Signup.html'
+    template_name = 'PMapp/User_form.html'
     form_class =SignupForm
 
     def form_valid(self, form):
@@ -179,3 +179,35 @@ class Signup(CreateView):
 '''サインアップ完了'''
 class SignupDone(TemplateView):
     template_name = 'PMapp/Signup_done.html'
+    
+'''ユーザー登録情報の更新'''
+class UserUpdate(OnlyYouMixin, UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'PMapp/User_form.html'
+
+    def get_success_url(self):
+        return resolve_url('PMapp:My_page', pk=self.kwargs['pk'])
+
+    # contextデータ作成
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["process_name"] = "Update"
+        return context
+    
+'''パスワード変更'''
+class PasswordChange(PasswordChangeView):
+    form_class = MyPasswordChangeForm
+    success_url = reverse_lazy('PMapp:Password_change_done')
+    template_name = 'PMapp/User_form.html'
+
+    # contextデータ作成
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["process_name"] = "Change Password"
+        return context
+
+
+'''パスワード変更完了'''
+class PasswordChangeDone(PasswordChangeDoneView):
+    template_name = 'PMapp/Password_change_done.html'
